@@ -97,3 +97,39 @@ class Input extends Component {
     )
   }
 }
+```
+
+## 4.
+
+Using React to manage only state and not render html
+
+```jsx
+let input
+
+const makeInput = ({ value, onChange, disabled = false }) => {
+  if (!input) {
+    input = document.body.appendChild(document.createElement('input'))
+    input.addEventListener('input', onChange)
+  }
+  input.value = value
+  input.disabled = disabled
+}
+
+class Input extends React.Component {
+  state = {
+    value: '',
+  }
+  handleInputChange = e => {
+    const value = e.target.value
+    this.setState(() => ({ value }))
+  }
+  render() {
+    makeInput({
+      value: this.state.value,
+      onChange: this.handleInputChange,
+      disabled: this.state.value.length > 10,
+    })
+    return null
+  }
+}
+```
